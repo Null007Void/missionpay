@@ -1,0 +1,34 @@
+# Canonical line-ending policy for this repository.
+#
+# Why this file exists: nothing here pins line endings, so a Windows checkout with
+# `core.autocrlf=true` rewrites text files to CRLF in the working tree while git keeps
+# LF in the index. A wheel built from that working tree then packages bytes that are
+# not the committed bytes — the same commit produced three different wheel digests
+# (8db713ca…, 98972a92…, f98b3839…) purely from where the build was run. A published
+# checksum that a reviewer cannot reproduce from the commit is not evidence.
+#
+# `text=auto` leaves git's own binary detection in charge, so images and archives are
+# never rewritten; `eol=lf` pins what a checkout writes for everything git considers
+# text, on every platform, regardless of `core.autocrlf`.
+* text=auto eol=lf
+
+# Binary payloads: state the ones this project actually carries, so a future change to
+# git's detection rules cannot quietly reclassify them as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.whl binary
+*.zip binary
+*.pyc binary
+*.sqlite3 binary
+*.db binary
+
+# Checksum manifests and build outputs are compared byte-for-byte by tooling on every
+# platform; a CR byte in one makes `sha256sum -c` fail on Linux and macOS.
+MANIFEST.sha256 text eol=lf
+*.sha256 text eol=lf
+
+# No shipped file is a Windows launcher. If one is ever added (.bat/.cmd/.ps1 need
+# CRLF), declare it here explicitly with `eol=crlf` rather than relaxing this policy.

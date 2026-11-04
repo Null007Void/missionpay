@@ -1,0 +1,20 @@
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+build/
+dist/
+*.egg-info/
+missionpay.db
+missionpay-demo.sqlite3
+# SQLite WAL sidecars (H-01): deleting only the database leaves these behind and
+# dirties a clean checkout, so the demo reset must remove the whole family.
+missionpay-demo.sqlite3-*
+missionpay.db-*
+# Runtime evidence blobs live beside the database with a distinct name. They must
+# never land in the tracked evidence/ directory, which holds engineering records.
+*.sqlite3.evidence/
+missionpay.db.evidence/

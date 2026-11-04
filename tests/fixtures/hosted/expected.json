@@ -1,0 +1,108 @@
+{
+  "fixture": {
+    "file": "live-receipt.txt",
+    "sha256": "08a7e2e9cdbe77f7b78eec594207bc4acdb76fccfbe80cf2bff68967d452d312",
+    "characters": 396,
+    "lines": 11,
+    "media_type": "text/plain",
+    "synthetic": true,
+    "provenance": "Written for this release as a synthetic $5.00 receipt. Not a real person's document, not a template of one, and distinct from the built-in demo receipt (Harbor Safety Supply, nitrile gloves, $78.99)."
+  },
+  "established": "2026-11-02, before any inference was requested",
+  "refrozen": "2026-11-02, still before any inference: the citation rule and the comparison rule were corrected, and no expected value, anchor or span was changed",
+  "prompt_version": "missionpay-receipt-v2",
+  "fact_vocabulary": [
+    "merchant",
+    "purchase_date",
+    "item",
+    "quantity",
+    "unit_price",
+    "total",
+    "total_paid",
+    "total_usd",
+    "payment_method",
+    "candidate_category",
+    "expense_category",
+    "activity_link"
+  ],
+  "citation_rule": "A citation is valid only when receipt_text[start:end] equals the quoted text exactly AND the quote contains the anchor named below. The canonical_start/canonical_end values are the occurrence this expectation was written against; every anchor appears exactly once in the receipt, so a citation that contains the anchor cites the same evidence. A paraphrase, a re-typed value, a span pointing at other text, or a quote that does not contain the anchor is a failure.",
+  "comparison_rule": "Money is parsed BEFORE any case folding and compared as a decimal amount: an optional three-letter currency prefix or suffix, or a dollar sign, then digits with at most two decimal places. 'USD 5.00', '$5.00', '5.00 USD' and '5.00' are the same amount; 'USD 5.00' and 'EUR 5.00' are never equal, and neither are 5.00 and 50.00 or 5.00 and 5.01. Non-money text is compared after stripping, collapsing whitespace and case folding. If exactly one side of a comparison is an amount, the values are not equal. This rule was fixed before inference; it is not a per-response concession, and no expected fact or span is edited to accommodate model output.",
+  "expected_facts": [
+    {
+      "name": "merchant",
+      "value": "CANYON SUPPLY COOPERATIVE",
+      "epistemic_status": "observed",
+      "anchor": "CANYON SUPPLY COOPERATIVE",
+      "canonical_start": 0,
+      "canonical_end": 25,
+      "why": "the vendor name line"
+    },
+    {
+      "name": "purchase_date",
+      "value": "2026-11-03",
+      "epistemic_status": "observed",
+      "anchor": "2026-11-03",
+      "canonical_start": 92,
+      "canonical_end": 102,
+      "why": "the date printed on the receipt"
+    },
+    {
+      "name": "item",
+      "value": "Safety whistle, lanyard",
+      "epistemic_status": "observed",
+      "anchor": "Safety whistle, lanyard",
+      "canonical_start": 108,
+      "canonical_end": 131,
+      "why": "the item description as printed"
+    },
+    {
+      "name": "quantity",
+      "value": "2",
+      "epistemic_status": "observed",
+      "anchor": "2 x Safety whistle",
+      "canonical_start": 104,
+      "canonical_end": 122,
+      "why": "the quantity printed before the description"
+    },
+    {
+      "name": "unit_price",
+      "value": "USD 2.50",
+      "epistemic_status": "observed",
+      "anchor": "2.50",
+      "canonical_start": 138,
+      "canonical_end": 142,
+      "why": "the per-unit price in the line item"
+    },
+    {
+      "name": "total_paid",
+      "value": "USD 5.00",
+      "epistemic_status": "observed",
+      "anchor": "USD 5.00",
+      "canonical_start": 291,
+      "canonical_end": 299,
+      "why": "the TOTAL PAID line; the only line that states a currency"
+    },
+    {
+      "name": "payment_method",
+      "value": "personal debit card ending 4412",
+      "epistemic_status": "observed",
+      "anchor": "personal debit card ending 4412",
+      "canonical_start": 311,
+      "canonical_end": 342,
+      "why": "the payment method as printed"
+    },
+    {
+      "name": "activity_link",
+      "value": "river cleanup volunteer safety kit",
+      "epistemic_status": "observed",
+      "anchor": "river cleanup volunteer safety kit",
+      "canonical_start": 361,
+      "canonical_end": 395,
+      "why": "the stated purpose; whether anyone attended is a separate question"
+    }
+  ],
+  "missing_expectation": {
+    "shape": "a non-empty array of non-empty strings",
+    "reason": "The receipt cannot establish that anyone attended the activity it names, so a correct interpretation must state at least one missing item. The wording is not prescribed; the content is reported for the reviewer rather than asserted."
+  }
+}

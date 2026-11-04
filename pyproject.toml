@@ -1,0 +1,57 @@
+[build-system]
+# Pinned, not ranged. The wheel container records the backend that produced it
+# ("Generator: setuptools (X)"), so a floating requirement makes the artifact hash a
+# function of the day the build ran. 84.2.1 is the version the current release was
+# built with; changing it is a deliberate act that re-versions the artifact.
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "missionpay"
+version = "1.0.0"
+description = "Evidence-bound nonprofit reimbursement with deterministic restricted-fund controls"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{ name = "Null007Void | Null Foundry" }]
+keywords = ["nonprofit", "reimbursement", "restricted-funds", "paypal", "audit"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Office/Business :: Financial :: Accounting",
+]
+dependencies = [
+    "argon2-cffi==25.1.0",
+    "fastapi==0.133.1",
+    "python-multipart==0.0.32",
+    "uvicorn==0.41.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "httpx==0.28.1",
+    "pytest==9.1.1",
+]
+
+[project.scripts]
+missionpay = "missionpay.cli:main"
+
+[project.urls]
+Documentation = "https://github.com/Null007Void/missionpay#readme"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+missionpay = ["py.typed"]
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers --strict-config"
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = [
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated:starlette.exceptions.StarletteDeprecationWarning",
+    "ignore:The anyio.abc.BlockingPortal alias is deprecated:DeprecationWarning",
+]
